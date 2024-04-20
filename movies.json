@@ -1,69 +1,69 @@
 [
     {
-        "title": "El Padrino",
+        "title": "EL PADRINO",
         "director": "Francis Ford Coppola",
         "year": 1972,
         "genre": "Drama",
         "imagen": "https://www.race.es/revista-autoclub/wp-content/uploads/sites/4/2022/05/el-padrino-el-clasico-de-los-clasicos.jpg"
     },
     {
-        "title": "Titanic",
+        "title": "TITANIC",
         "director": "James Cameron",
         "year": 1997,
         "genre": "Romance",
         "imagen": "https://es.web.img3.acsta.net/medias/nmedia/18/86/91/41/19870073.jpg"
     },
     {
-        "title": "Inception",
+        "title": "INCEPTION",
         "director": "Christopher Nolan",
         "year": 2010,
         "genre": "Ciencia Ficción",
         "imagen": "https://c8.alamy.com/compes/2c4x05r/inception-2010-dirigida-por-christopher-nolan-y-protagonizada-por-leonardo-dicaprio-joseph-gordon-levitt-ellen-page-tom-hardy-y-ken-watanabe-un-equipo-irnante-al-subconsciente-de-un-hombre-de-negocios-utilizando-la-tecnologia-de-compartir-suenos-para-una-planta-una-semilla-para-influir-en-su-decision-en-el-mundo-real-2c4x05r.jpg"
     },
     {
-        "title": "Saga American ìe",
+        "title": "SAGA AMERICAN PIE",
         "director": "Paul Weitz",
         "year": 1999,
         "genre": "Comedia",
         "imagen": "https://es.web.img2.acsta.net/r_1280_720/medias/nmedia/18/65/00/77/18820134.jpg"
     },
     {
-        "title": "Saga Harry Potter",
+        "title": "SAGA HARRY POTTER",
         "director": "David Yates",
         "year": 2001,
         "genre": "Fantasía",
         "imagen": "https://e00-marca.uecdn.es/assets/multimedia/imagenes/2021/11/17/16371568440299.jpg"
     },
     {
-        "title": "Saga Die Hard",
+        "title": "SAGA DIE HARD",
         "director": "John McTiernan",
         "year": 1988,
         "genre": "Acción",
         "imagen": "https://m.media-amazon.com/images/I/61OcA9spr2L._AC_UF894,1000_QL80_.jpg"
     },
     {
-        "title": "El Exsorcista",
+        "title": "EL EXSORCISTA",
         "director": "William Friedkin",
         "year": 1973,
         "genre": "Terror",
         "imagen": "https://www.ecartelera.com/carteles/5100/5147/001_m.jpg"
     },
     {
-        "title": "Saga Star Wars",
+        "title": "SAGA STARS WARS",
         "director": "George Walton Lucas, Jr.",
         "year": 1977,
         "genre": "Ciencia ficción y Fantasía",
         "imagen": "https://hips.hearstapps.com/hmg-prod/images/los-ultimos-jedi-1575448992.jpg?crop=1xw:1xh;center,top&resize=980:*"
     },
     {
-        "title": "Forrest Gump",
+        "title": "FORREST GUMP",
         "director": "Robert Zemeckis",
         "year": 1994,
         "genre": "Comedia",
         "imagen": "https://pics.filmaffinity.com/Forrest_Gump-212765827-large.jpg"
     },
     {
-        "title": "Saga Back to the Future",
+        "title": "SAGA BACK TO THE FUTURE",
         "director": "Robert Zemeckis",
         "year": 1985,
         "genre": "Ciencia ficción, Aventuras, Comedia",
