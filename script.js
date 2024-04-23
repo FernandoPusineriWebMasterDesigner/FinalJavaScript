@@ -49,7 +49,7 @@ $(document).ready(function () {
                 confirmButtonColor: '#3085d6',
                 confirmButtonText: 'Entendido'
             });
-            return; 
+            return;
         }
 
         favorites.push(movie);
@@ -66,7 +66,7 @@ $(document).ready(function () {
         favorites.forEach(function (movie) {
             var favoriteItem = $("<div>");
             var movieTitle = $("<span>").text(movie.title);
-            var movieThumbnail = $("<img>").attr("src", movie.imagen).attr("alt", movie.title).css({"width": "55px", "height": "60px"});
+            var movieThumbnail = $("<img>").attr("src", movie.imagen).attr("alt", movie.title).css({ "width": "55px", "height": "60px" });
             var removeButton = $("<button>").text("Eliminar de favoritos");
             removeButton.click(() => removeFromFavorites(movie));
             favoriteItem.append(movieThumbnail, movieTitle, removeButton);
@@ -93,7 +93,6 @@ $(document).ready(function () {
 
     loadMovies();
 });
-
 
 
 
