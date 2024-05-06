@@ -1,46 +1,51 @@
-$(document).ready(function () {
-    var movies = [];
-    var jsonUrl = "movies.json";
+document.addEventListener("DOMContentLoaded", function () {
+    let movies = [];
+    const jsonUrl = "movies.json";
 
     function loadMovies() {
-        $.ajax({
-            url: jsonUrl,
-            dataType: "json",
-            success: function (data) {
+        fetch(jsonUrl)
+            .then(response => response.json())
+            .then(data => {
                 movies = data;
                 displayMovies(movies);
-            },
-            error: function (xhr, status, error) {
-                console.error("Error al cargar el archivo JSON: " + error);
-            }
-        });
+            })
+            .catch(error => console.error("Error al cargar el archivo JSON: ", error));
     }
 
     function displayMovies(movies) {
-        var moviesList = $("#searchResults");
-        moviesList.empty();
+        const moviesList = document.getElementById("searchResults");
+        moviesList.innerHTML = "";
 
-        movies.forEach(function (movie) {
-            var movieItem = $("<div>");
-            var movieImage = $("<img>").attr("src", movie.imagen).attr("alt", movie.title);
-            var movieTitle = $("<h2>").text(movie.title);
-            var movieDirector = $("<p>").text("Director: " + movie.director);
-            var movieYear = $("<p>").text("Año: " + movie.year);
-            var movieGenre = $("<p>").text("Género: " + movie.genre);
+        movies.forEach(movie => {
+            const movieItem = document.createElement("div");
+            const movieImage = document.createElement("img");
+            movieImage.src = movie.imagen;
+            movieImage.alt = movie.title;
+            const movieTitle = document.createElement("h2");
+            movieTitle.textContent = movie.title;
+            const movieDirector = document.createElement("p");
+            movieDirector.textContent = "Director: " + movie.director;
+            const movieYear = document.createElement("p");
+            movieYear.textContent = "Año: " + movie.year;
+            const movieGenre = document.createElement("p");
+            movieGenre.textContent = "Género: " + movie.genre;
 
-            var addToFavoritesButton = $("<button>").text("Agregar a favoritos");
-            addToFavoritesButton.click(() => addToFavorites(movie));
+            const addToFavoritesButton = document.createElement("button");
+            addToFavoritesButton.textContent = "Agregar a favoritos";
+            addToFavoritesButton.addEventListener("click", () => addToFavorites(movie));
 
             movieItem.append(movieImage, movieTitle, movieDirector, movieYear, movieGenre, addToFavoritesButton);
-            moviesList.append(movieItem);
+            moviesList.appendChild(movieItem);
         });
     }
 
     function addToFavorites(movie) {
-        var favorites = JSON.parse(localStorage.getItem("favorites")) || [];
-
-        var isDuplicate = favorites.some(favorite => favorite.title === movie.title);
-
+        const userId = getUserId();
+        let userFavorites = JSON.parse(localStorage.getItem(`favorites_${userId}`)) || [];
+    
+        
+        const isDuplicate = userFavorites.some(favorite => favorite.title === movie.title);
+    
         if (isDuplicate) {
             Swal.fire({
                 icon: 'warning',
@@ -51,43 +56,66 @@ $(document).ready(function () {
             });
             return;
         }
-
-        favorites.push(movie);
-        localStorage.setItem("favorites", JSON.stringify(favorites));
+    
+        
+        userFavorites.push(movie);
+        localStorage.setItem(`favorites_${userId}`, JSON.stringify(userFavorites));
         displayFavorites();
+    
+        
+        Toastify({
+            text: 'Película agregada a favoritos',
+            duration: 3000, 
+            close: true,
+            gravity: 'bottom', 
+            backgroundColor: "linear-gradient(to right, #00b09b, #96c93d)" 
+        }).showToast();
     }
+    
+    
+    function getUserId() {
+        return Math.floor(Math.random() * 1000); 
+    }
+    
 
     function displayFavorites() {
-        var favoritesList = $("#favoritesList");
-        favoritesList.empty();
+        const favoritesList = document.getElementById("favoritesList");
+        favoritesList.innerHTML = "";
 
-        var favorites = JSON.parse(localStorage.getItem("favorites")) || [];
+        const favorites = JSON.parse(localStorage.getItem("favorites")) || [];
 
-        favorites.forEach(function (movie) {
-            var favoriteItem = $("<div>");
-            var movieTitle = $("<span>").text(movie.title);
-            var movieThumbnail = $("<img>").attr("src", movie.imagen).attr("alt", movie.title).css({ "width": "55px", "height": "60px" });
-            var removeButton = $("<button>").text("Eliminar de favoritos");
-            removeButton.click(() => removeFromFavorites(movie));
+        favorites.forEach(movie => {
+            const favoriteItem = document.createElement("div");
+            const movieTitle = document.createElement("span");
+            movieTitle.textContent = movie.title;
+            const movieThumbnail = document.createElement("img");
+            movieThumbnail.src = movie.imagen;
+            movieThumbnail.alt = movie.title;
+            movieThumbnail.style.width = "55px";
+            movieThumbnail.style.height = "60px";
+            const removeButton = document.createElement("button");
+            removeButton.textContent = "Eliminar de favoritos";
+            removeButton.addEventListener("click", () => removeFromFavorites(movie));
             favoriteItem.append(movieThumbnail, movieTitle, removeButton);
-            favoritesList.append(favoriteItem);
+            favoritesList.appendChild(favoriteItem);
         });
     }
 
     function removeFromFavorites(movie) {
-        var favorites = JSON.parse(localStorage.getItem("favorites")) || [];
-        var updatedFavorites = favorites.filter(favorite => favorite.title !== movie.title);
+        const favorites = JSON.parse(localStorage.getItem("favorites")) || [];
+        const updatedFavorites = favorites.filter(favorite => favorite.title !== movie.title);
         localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
         displayFavorites();
     }
 
-    $("#toggleFavoritesList").click(function () {
-        $("#favoritesList").toggleClass("show");
+    document.getElementById("toggleFavoritesList").addEventListener("click", function () {
+        const favoritesList = document.getElementById("favoritesList");
+        favoritesList.classList.toggle("show");
     });
 
-    $("#searchButton").click(function () {
-        var searchTerm = $("#searchInput").val().toLowerCase();
-        var filteredMovies = movies.filter(movie => movie.title.toLowerCase().includes(searchTerm));
+    document.getElementById("searchButton").addEventListener("click", function () {
+        const searchTerm = document.getElementById("searchInput").value.toLowerCase();
+        const filteredMovies = movies.filter(movie => movie.title.toLowerCase().includes(searchTerm));
         displayMovies(filteredMovies);
     });
 

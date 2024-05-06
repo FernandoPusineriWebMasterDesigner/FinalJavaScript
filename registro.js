@@ -1,6 +1,6 @@
 window.onload = function () {
-    var isAuthenticated = checkAuthentication();
-    if (!isAuthenticated || localStorage.getItem('loginSuccess') === 'true') {
+    const isAuthenticated = checkAuthentication();
+    if (!isAuthenticated || sessionStorage.getItem('loginSuccess') === 'true') {
         showRegistrationModal();
     } else {
         showRegistrationModal();  
@@ -8,10 +8,9 @@ window.onload = function () {
 };
 
 function checkAuthentication() {
-    var userData = JSON.parse(localStorage.getItem("userData"));
+    const userData = JSON.parse(sessionStorage.getItem("userData"));
     return !!userData;
 }
-
 
 function showRegistrationModal() {
     Swal.fire({
@@ -26,7 +25,6 @@ function showRegistrationModal() {
     });
 }
 
-
 function showRegistrationForm() {
     Swal.fire({
         title: 'Registro',
@@ -34,11 +32,14 @@ function showRegistrationForm() {
             '<input type="text" id="username" placeholder="Nombre de usuario" required><br>' +
             '<input type="password" id="password" placeholder="Contraseña" required><br>' +
             '<input type="password" id="confirmPassword" placeholder="Confirmar contraseña" required><br>' +
-            '<button id="registerBtn" onclick="registerUser()">Registrarse</button>',
+            '<button id="registerBtn">Registrarse</button>',
         showCancelButton: true,
         showCloseButton: true,
         showConfirmButton: false,
-        allowOutsideClick: false
+        allowOutsideClick: false,
+        didOpen: () => {
+            document.getElementById('registerBtn').addEventListener('click', registerUser);
+        }
     }).then((result) => {
         if (result.isDismissed) {
             showRegistrationModal();
@@ -46,24 +47,22 @@ function showRegistrationForm() {
     });
 }
 
-
-
 function registerUser() {
-    var fullname = document.getElementById('fullname').value;
-    var username = document.getElementById('username').value;
-    var password = document.getElementById('password').value;
-    var confirmPassword = document.getElementById('confirmPassword').value;
+    const fullname = document.getElementById('fullname').value;
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+    const confirmPassword = document.getElementById('confirmPassword').value;
 
-    var existingUserDataString = localStorage.getItem("userData");
+    const existingUserDataString = sessionStorage.getItem("userData");
     if (existingUserDataString) {
-        var existingUserData = JSON.parse(existingUserDataString);
+        const existingUserData = JSON.parse(existingUserDataString);
         if (existingUserData.username === username) {
             Swal.fire({
                 icon: 'error',
                 title: 'Error',
                 text: 'El nombre de usuario ya está registrado'
             }).then(() => {
-                showRegistrationModal();
+                showRegistrationForm(); 
             });
             return;
         }
@@ -75,17 +74,17 @@ function registerUser() {
             title: 'Error',
             text: 'Las contraseñas no coinciden'
         }).then(() => {
-            showRegistrationModal();
+            showRegistrationForm(); 
         });
         return;
     }
 
-    var userData = {
+    const userData = {
         fullname: fullname,
         username: username,
         password: password
     };
-    localStorage.setItem("userData", JSON.stringify(userData));
+    sessionStorage.setItem("userData", JSON.stringify(userData));
 
     Swal.fire({
         icon: 'success',
@@ -96,19 +95,6 @@ function registerUser() {
         }
     });
 }
-
-
-
-function checkAuthentication() {
-    var userDataString = localStorage.getItem("userData");
-    return userDataString !== null && userDataString !== undefined;
-}
-
-    
-    function checkAuthentication() {
-        var userDataString = localStorage.getItem("userData");
-        return userDataString !== null && userDataString !== undefined;
-    }
 
 function showLoginForm() {
     Swal.fire({
@@ -122,17 +108,16 @@ function showLoginForm() {
         allowOutsideClick: false
     }).then((result) => {
         if (result.isDismissed) {
-
             showRegistrationModal();
         }
     });
 }
 
 function login() {
-    var username = document.getElementById('loginUsername').value;
-    var password = document.getElementById('loginPassword').value;
+    const username = document.getElementById('loginUsername').value;
+    const password = document.getElementById('loginPassword').value;
 
-    var userDataString = localStorage.getItem("userData");
+    const userDataString = sessionStorage.getItem("userData");
     if (!userDataString) {
         Swal.fire({
             icon: 'error',
@@ -144,9 +129,9 @@ function login() {
         return;
     }
 
-    var userData = JSON.parse(userDataString);
+    const userData = JSON.parse(userDataString);
     if (userData.username === username && userData.password === password) {
-        localStorage.setItem('loginSuccess', true);
+        sessionStorage.setItem('loginSuccess', true);
 
         Swal.fire({
             icon: 'success',
@@ -167,10 +152,10 @@ function login() {
     }
 }
 
-
 document.addEventListener("DOMContentLoaded", function() {
     document.getElementById("logoutBtn").addEventListener("click", function() {
         showRegistrationModal();
     });
 });
+
 
