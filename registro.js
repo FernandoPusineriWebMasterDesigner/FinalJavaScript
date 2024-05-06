@@ -1,9 +1,8 @@
 window.onload = function () {
     const isAuthenticated = checkAuthentication();
-    if (!isAuthenticated || localStorage.getItem('loginSuccess') === 'true') {
+    const loginSuccess = localStorage.getItem('loginSuccess') === 'true';
+    if (!isAuthenticated || !loginSuccess) {
         showRegistrationModal();
-    } else {
-        showRegistrationModal();  
     }
 };
 
@@ -133,7 +132,7 @@ function login() {
 
     const userData = JSON.parse(userDataString);
     if (userData.username === username && userData.password === password) {
-        localStorage.setItem('loginSuccess', true);
+        localStorage.setItem('loginSuccess', true); // Actualizar indicador de inicio de sesión exitoso
 
         Swal.fire({
             icon: 'success',
@@ -153,7 +152,6 @@ function login() {
         });
     }
 }
-
 document.addEventListener("DOMContentLoaded", function() {
     document.getElementById("logoutBtn").addEventListener("click", function() {
         showRegistrationModal();
