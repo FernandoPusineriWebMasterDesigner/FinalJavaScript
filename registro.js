@@ -132,7 +132,7 @@ function login() {
 
     const userData = JSON.parse(userDataString);
     if (userData.username === username && userData.password === password) {
-        localStorage.setItem('loginSuccess', true); // Actualizar indicador de inicio de sesión exitoso
+        localStorage.setItem('loginSuccess', true); 
 
         Swal.fire({
             icon: 'success',
