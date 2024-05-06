@@ -1,6 +1,6 @@
 window.onload = function () {
     const isAuthenticated = checkAuthentication();
-    if (!isAuthenticated || sessionStorage.getItem('loginSuccess') === 'true') {
+    if (!isAuthenticated || localStorage.getItem('loginSuccess') === 'true') {
         showRegistrationModal();
     } else {
         showRegistrationModal();  
@@ -8,7 +8,7 @@ window.onload = function () {
 };
 
 function checkAuthentication() {
-    const userData = JSON.parse(sessionStorage.getItem("userData"));
+    const userData = JSON.parse(localStorage.getItem("userData"));
     return !!userData;
 }
 
@@ -32,14 +32,11 @@ function showRegistrationForm() {
             '<input type="text" id="username" placeholder="Nombre de usuario" required><br>' +
             '<input type="password" id="password" placeholder="Contraseña" required><br>' +
             '<input type="password" id="confirmPassword" placeholder="Confirmar contraseña" required><br>' +
-            '<button id="registerBtn">Registrarse</button>',
+            '<button id="registerBtn" onclick="registerUser()">Registrarse</button>',
         showCancelButton: true,
         showCloseButton: true,
         showConfirmButton: false,
-        allowOutsideClick: false,
-        didOpen: () => {
-            document.getElementById('registerBtn').addEventListener('click', registerUser);
-        }
+        allowOutsideClick: false
     }).then((result) => {
         if (result.isDismissed) {
             showRegistrationModal();
@@ -53,7 +50,7 @@ function registerUser() {
     const password = document.getElementById('password').value;
     const confirmPassword = document.getElementById('confirmPassword').value;
 
-    const existingUserDataString = sessionStorage.getItem("userData");
+    const existingUserDataString = localStorage.getItem("userData");
     if (existingUserDataString) {
         const existingUserData = JSON.parse(existingUserDataString);
         if (existingUserData.username === username) {
@@ -62,7 +59,7 @@ function registerUser() {
                 title: 'Error',
                 text: 'El nombre de usuario ya está registrado'
             }).then(() => {
-                showRegistrationForm(); 
+                showRegistrationModal();
             });
             return;
         }
@@ -74,7 +71,7 @@ function registerUser() {
             title: 'Error',
             text: 'Las contraseñas no coinciden'
         }).then(() => {
-            showRegistrationForm(); 
+            showRegistrationModal();
         });
         return;
     }
@@ -84,7 +81,7 @@ function registerUser() {
         username: username,
         password: password
     };
-    sessionStorage.setItem("userData", JSON.stringify(userData));
+    localStorage.setItem("userData", JSON.stringify(userData));
 
     Swal.fire({
         icon: 'success',
@@ -94,6 +91,11 @@ function registerUser() {
             window.location.reload();
         }
     });
+}
+
+function checkAuthentication() {
+    const userDataString = localStorage.getItem("userData");
+    return userDataString !== null && userDataString !== undefined;
 }
 
 function showLoginForm() {
@@ -117,7 +119,7 @@ function login() {
     const username = document.getElementById('loginUsername').value;
     const password = document.getElementById('loginPassword').value;
 
-    const userDataString = sessionStorage.getItem("userData");
+    const userDataString = localStorage.getItem("userData");
     if (!userDataString) {
         Swal.fire({
             icon: 'error',
@@ -131,7 +133,7 @@ function login() {
 
     const userData = JSON.parse(userDataString);
     if (userData.username === username && userData.password === password) {
-        sessionStorage.setItem('loginSuccess', true);
+        localStorage.setItem('loginSuccess', true);
 
         Swal.fire({
             icon: 'success',
@@ -157,5 +159,8 @@ document.addEventListener("DOMContentLoaded", function() {
         showRegistrationModal();
     });
 });
+
+
+
 
 
